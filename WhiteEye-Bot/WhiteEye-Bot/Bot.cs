@@ -19,8 +19,8 @@ namespace WhiteEye_Bot
         private DiscordSocketClient client;
         CommandService commands;
 
-        string appPath;
-        string dataPath;
+        public static string appPath;
+        public static string dataPath;
 
         public async Task MainAsync()
         {
@@ -36,13 +36,13 @@ namespace WhiteEye_Bot
                 LogLevel = LogSeverity.Debug
             });
 
-            client.MessageReceived += CommandHandler;
+            client.MessageReceived += CommandHandler.Commander;
 
 
             client.Ready += ClientReady;
             client.Log += Log;
 
-            client.UserJoined += CheckWhiteList;
+            client.UserJoined += Whitelist.CheckWhiteList;
             
 
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -82,125 +82,6 @@ namespace WhiteEye_Bot
             return Task.CompletedTask;
         }
 
-        private Task CommandHandler(SocketMessage msg)
-        {
-            if (msg.Author.IsBot)
-                return Task.CompletedTask;
-
-            if (!msg.Content.StartsWith("!"))
-                return Task.CompletedTask;
-
-            string cmd = "";
-            string[] args;
-            int cmdLength;
-
-            if(msg.Content.Contains(" "))
-                cmdLength = msg.Content.IndexOf(" ");
-            else
-                cmdLength = msg.Content.Length;
-
-            cmd = msg.Content.Substring(1, cmdLength - 1).ToLower();
-
-            args = msg.Content.Split(' ');
-
-            if (cmd.Equals("whitelist")) 
-            {
-                if (!String.IsNullOrEmpty(args[1]))
-               {
-                    var guild = msg.Channel as SocketGuildChannel;
-
-                    AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]));
-                }
-            }
-
-            return Task.CompletedTask;
-        }
-
-        private Task CheckWhiteList(SocketGuildUser user)
-        {
-            if (!IsWhiteListed(user.Guild.Id, user.Id))
-            {
-                Console.WriteLine(user.Nickname + " was Kicked from the server as he was not whitelisted!");
-
-                 user.KickAsync();
-            }
-
-            return Task.CompletedTask;
-        }
-
-        public bool IsWhiteListed(ulong guildID, ulong userID)
-        {
-            Console.WriteLine("Checking Whitelist...");
-
-            string guildPath = dataPath + "/" + guildID + ".json";
-
-            if (!File.Exists(guildPath))
-            {
-                File.Create(guildPath).Dispose();
-
-                WhitelistData whitelist = new WhitelistData
-                {
-                    userIDs = new List<ulong>()
-                };
-
-                JsonSerializer s = new JsonSerializer();
-
-                using (StreamWriter sw = new StreamWriter(guildPath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    s.Serialize(writer, whitelist);
-                }
-            }
-
-            WhitelistData data = JsonConvert.DeserializeObject<WhitelistData>(File.ReadAllText(guildPath));
-
-            if (data.userIDs.Contains(userID))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void AddWhiteList(ulong guildID, ulong userID)
-        {
-            string guildPath = dataPath + "/" + guildID + ".json";
-
-            if(!File.Exists(guildPath))
-            {
-                File.Create(guildPath).Dispose();
-
-                WhitelistData whitelist = new WhitelistData
-                {
-                    userIDs = new List<ulong>()
-                };
-
-                JsonSerializer s = new JsonSerializer();
-
-                using (StreamWriter sw = new StreamWriter(guildPath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    s.Serialize(writer, whitelist);
-                }
-            }
-
-            if(userID.ToString().Length == 18)
-            {
-                WhitelistData data = JsonConvert.DeserializeObject<WhitelistData>(File.ReadAllText(guildPath));
-
-                data.userIDs.Add(userID);
-
-                JsonSerializer s = new JsonSerializer();
-
-                using (StreamWriter sw = new StreamWriter(guildPath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    s.Serialize(writer, data);
-                }
-            }
-        }
 
         public string GetToken()
         {
@@ -233,10 +114,7 @@ namespace WhiteEye_Bot
         }
     }
 
-    public class WhitelistData
-    {
-        public List<ulong> userIDs;
-    }
+
 
 
 }
