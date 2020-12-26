@@ -32,6 +32,7 @@ namespace WhiteEye_Bot
             if(IsWhiteListed(user.Guild.Id, user.Id))
             {
                 RemoveWhiteList(user.Guild.Id, user.Id, null);
+                Console.WriteLine("UserID: " + user.Id + " removed from WhiteList through Leave Event");
             }
 
             return Task.CompletedTask;
@@ -43,6 +44,7 @@ namespace WhiteEye_Bot
             if(IsWhiteListed(guild.Id, user.Id))
             {
                 RemoveWhiteList(guild.Id, user.Id, null);
+                Console.WriteLine("UserID: " + user.Id +  " removed from WhiteList through Ban Event");
             }
 
             return Task.CompletedTask;
