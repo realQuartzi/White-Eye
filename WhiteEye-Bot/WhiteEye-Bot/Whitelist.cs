@@ -29,8 +29,6 @@ namespace WhiteEye_Bot
         //Returns if the User is on the Whitelist or not
         public static bool IsWhiteListed(ulong guildID, ulong userID)
         {
-            Console.WriteLine("Checking Whitelist...");
-
             string guildPath = Bot.dataPath + "/" + guildID + ".json";
 
             if (!File.Exists(guildPath))
@@ -90,7 +88,7 @@ namespace WhiteEye_Bot
             {
                 WhitelistData data = JsonConvert.DeserializeObject<WhitelistData>(File.ReadAllText(guildPath));
 
-                if (data.userIDs.Contains(userID))
+                if (!data.userIDs.Contains(userID))
                 {
                     data.userIDs.Add(userID);
 
