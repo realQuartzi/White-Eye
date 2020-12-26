@@ -113,6 +113,40 @@ namespace WhiteEye_Bot
                 msg.Channel.SendMessageAsync("The given UserID is not valid!");
             }
         }
+
+        public static void RemoveWhiteList(ulong guildID, ulong userID, SocketMessage msg)
+        {
+            string guildPath = Bot.dataPath + "/" + guildID + ".json";
+
+            if (userID.ToString().Length == 18)
+            {
+                WhitelistData data = JsonConvert.DeserializeObject<WhitelistData>(File.ReadAllText(guildPath));
+
+                if (data.userIDs.Contains(userID))
+                {
+                    data.userIDs.Remove(userID);
+
+                    JsonSerializer s = new JsonSerializer();
+
+                    using (StreamWriter sw = new StreamWriter(guildPath))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        s.Serialize(writer, data);
+                    }
+
+                    msg.Channel.SendMessageAsync("UserID: " + userID + " has been removed from the Whitelist!");
+                }
+                else
+                {
+                    msg.Channel.SendMessageAsync("This UserID is already not whitelisted!");
+                }
+
+            }
+            else
+            {
+                msg.Channel.SendMessageAsync("The given UserID is not valid!");
+            }
+        }
     }
 
     //White List Data Class

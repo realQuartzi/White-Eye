@@ -34,13 +34,23 @@ namespace WhiteEye_Bot
 
             args = msg.Content.Split(' ');
 
-            if (cmd.Equals("whitelist"))
+            if (cmd.Equals("wl-add"))
             {
                 if (!String.IsNullOrEmpty(args[1]))
                 {
                     var guild = msg.Channel as SocketGuildChannel;
 
                     Whitelist.AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
+                }
+            }
+
+            if (cmd.Equals("wl-remove"))
+            {
+                if (!String.IsNullOrEmpty(args[1]))
+                {
+                    var guild = msg.Channel as SocketGuildChannel;
+
+                    Whitelist.RemoveWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
                 }
             }
 
