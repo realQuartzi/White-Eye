@@ -21,6 +21,8 @@ namespace WhiteEye_Bot
             if (!msg.Content.StartsWith("!"))
                 return Task.CompletedTask;
 
+            var user = msg.Author as SocketGuildUser;
+
             string cmd = "";
             string[] args;
             int cmdLength;
@@ -36,23 +38,46 @@ namespace WhiteEye_Bot
 
             if (cmd.Equals("wl-add"))
             {
-                if (!String.IsNullOrEmpty(args[1]))
+                if (user.GuildPermissions.KickMembers ||
+                    user.GuildPermissions.BanMembers)
                 {
-                    var guild = msg.Channel as SocketGuildChannel;
+                    if (!String.IsNullOrEmpty(args[1]))
+                    {
+                        var guild = msg.Channel as SocketGuildChannel;
 
-                    Whitelist.AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
+                        Whitelist.AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
+                    }
                 }
+                else
+                {
+                    msg.Channel.SendMessageAsync("You do not have permission to use this command");
+                }
+
+
             }
 
             if (cmd.Equals("wl-remove"))
             {
-                if (!String.IsNullOrEmpty(args[1]))
+                if (user.GuildPermissions.KickMembers ||
+                    user.GuildPermissions.BanMembers)
                 {
-                    var guild = msg.Channel as SocketGuildChannel;
+                    if (!String.IsNullOrEmpty(args[1]))
+                    {
+                        var guild = msg.Channel as SocketGuildChannel;
 
-                    Whitelist.RemoveWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
+                        Whitelist.RemoveWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
+                    }
                 }
+                else
+                {
+                    msg.Channel.SendMessageAsync("You do not have permission to use this command");
+                }
+
             }
+
+
+
+
 
             return Task.CompletedTask;
         }
