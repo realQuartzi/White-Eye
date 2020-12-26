@@ -26,6 +26,16 @@ namespace WhiteEye_Bot
             return Task.CompletedTask;
         }
 
+        public static Task WhiteListLeave(SocketGuildUser user)
+        {
+            if(IsWhiteListed(user.Guild.Id, user.Id))
+            {
+                RemoveWhiteList(user.Guild.Id, user.Id, null);
+            }
+
+            return Task.CompletedTask;
+        }
+
         //Returns if the User is on the Whitelist or not
         public static bool IsWhiteListed(ulong guildID, ulong userID)
         {
@@ -134,17 +144,29 @@ namespace WhiteEye_Bot
                         s.Serialize(writer, data);
                     }
 
-                    msg.Channel.SendMessageAsync("UserID: " + userID + " has been removed from the Whitelist!");
+                    if(msg != null)
+                    {
+                        msg.Channel.SendMessageAsync("UserID: " + userID + " has been removed from the Whitelist!");
+                    }
+
                 }
                 else
                 {
-                    msg.Channel.SendMessageAsync("This UserID is already not whitelisted!");
+                    if(msg != null)
+                    {
+                        msg.Channel.SendMessageAsync("This UserID is already not whitelisted!");
+                    }
+
                 }
 
             }
             else
             {
-                msg.Channel.SendMessageAsync("The given UserID is not valid!");
+                if(msg != null)
+                {
+                    msg.Channel.SendMessageAsync("The given UserID is not valid!");
+                }
+
             }
         }
     }
