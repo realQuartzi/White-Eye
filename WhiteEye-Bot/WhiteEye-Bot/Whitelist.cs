@@ -64,7 +64,7 @@ namespace WhiteEye_Bot
         }
 
         //Add User to WhiteList Function
-        public static void AddWhiteList(ulong guildID, ulong userID)
+        public static void AddWhiteList(ulong guildID, ulong userID, SocketMessage msg)
         {
             string guildPath = Bot.dataPath + "/" + guildID + ".json";
 
@@ -90,15 +90,29 @@ namespace WhiteEye_Bot
             {
                 WhitelistData data = JsonConvert.DeserializeObject<WhitelistData>(File.ReadAllText(guildPath));
 
-                data.userIDs.Add(userID);
-
-                JsonSerializer s = new JsonSerializer();
-
-                using (StreamWriter sw = new StreamWriter(guildPath))
-                using (JsonWriter writer = new JsonTextWriter(sw))
+                if (data.userIDs.Contains(userID))
                 {
-                    s.Serialize(writer, data);
+                    data.userIDs.Add(userID);
+
+                    JsonSerializer s = new JsonSerializer();
+
+                    using (StreamWriter sw = new StreamWriter(guildPath))
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        s.Serialize(writer, data);
+                    }
+
+                    msg.Channel.SendMessageAsync("UserID: " + userID + " has been added to the Whitelist!");
                 }
+                else
+                {
+                    msg.Channel.SendMessageAsync("A User with that ID is already Whitelisted!");
+                }
+
+            }
+            else
+            {
+                msg.Channel.SendMessageAsync("The given UserID is not valid!");
             }
         }
     }

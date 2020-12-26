@@ -16,7 +16,7 @@ namespace WhiteEye_Bot
         static void Main(string[] args)
         => new Bot().MainAsync().GetAwaiter().GetResult();
 
-        private DiscordSocketClient client;
+        public static DiscordSocketClient client;
         CommandService commands;
 
         public static string appPath;

@@ -40,7 +40,7 @@ namespace WhiteEye_Bot
                 {
                     var guild = msg.Channel as SocketGuildChannel;
 
-                    Whitelist.AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]));
+                    Whitelist.AddWhiteList(guild.Guild.Id, ulong.Parse(args[1]), msg);
                 }
             }
 
