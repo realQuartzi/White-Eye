@@ -44,6 +44,7 @@ namespace WhiteEye_Bot
 
             client.UserJoined += Whitelist.CheckWhiteList;
             client.UserLeft += Whitelist.WhiteListLeave;
+            client.UserBanned += Whitelist.WhiteListBanned;
             
 
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;

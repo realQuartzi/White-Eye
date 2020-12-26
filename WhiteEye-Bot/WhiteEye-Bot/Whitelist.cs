@@ -36,6 +36,16 @@ namespace WhiteEye_Bot
             return Task.CompletedTask;
         }
 
+        public static Task WhiteListBanned(SocketUser user, SocketGuild guild)
+        {
+            if(IsWhiteListed(guild.Id, user.Id))
+            {
+                RemoveWhiteList(guild.Id, user.Id, null);
+            }
+
+            return Task.CompletedTask;
+        }
+
         //Returns if the User is on the Whitelist or not
         public static bool IsWhiteListed(ulong guildID, ulong userID)
         {
