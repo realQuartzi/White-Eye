@@ -47,7 +47,7 @@ namespace WhiteEye_Bot
             client.UserBanned += Whitelist.WhiteListBanned;
             
 
-            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string path = Assembly.GetExecutingAssembly().Location;
             string updatedPath = Path.GetFullPath(Path.Combine(path, @"../"));
 
             appPath = updatedPath;
@@ -83,7 +83,6 @@ namespace WhiteEye_Bot
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
         }
-
 
         public string GetToken()
         {

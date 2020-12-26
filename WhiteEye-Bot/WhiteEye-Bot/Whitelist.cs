@@ -26,6 +26,7 @@ namespace WhiteEye_Bot
             return Task.CompletedTask;
         }
 
+        //UserLeave WhiteList Remove
         public static Task WhiteListLeave(SocketGuildUser user)
         {
             if(IsWhiteListed(user.Guild.Id, user.Id))
@@ -36,6 +37,7 @@ namespace WhiteEye_Bot
             return Task.CompletedTask;
         }
 
+        //UserBan WhiteList Remove
         public static Task WhiteListBanned(SocketUser user, SocketGuild guild)
         {
             if(IsWhiteListed(guild.Id, user.Id))
@@ -134,6 +136,7 @@ namespace WhiteEye_Bot
             }
         }
 
+        //Remove User from WhiteList Function
         public static void RemoveWhiteList(ulong guildID, ulong userID, SocketMessage msg)
         {
             string guildPath = Bot.dataPath + "/" + guildID + ".json";
