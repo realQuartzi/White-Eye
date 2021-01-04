@@ -1,0 +1,1 @@
+dotnet build "./WhiteEye-Bot/WhiteEye-Bot.csproj"
