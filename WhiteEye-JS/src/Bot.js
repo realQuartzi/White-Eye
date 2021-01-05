@@ -29,21 +29,35 @@ client.on('message', (message) =>
     //Check if Message Author is a Bot
     if(message.author.bot) return;
 
+    if(message.channel.type == "dm") return;
+
     if(message.content.startsWith(PREFIX))
     {
         const [cmd, ...args] = message.content.trim().substring(PREFIX.length).split(/\s+/);
 
         if(cmd == "wl-add")
         {
-            AddWhitelist(args[0], message.channel.guild.id, message.channel);
+            if(message.member.permissions.has("KICK_MEMBERS") || message.member.permissions.has("BAN_MEMBERS"))
+            {
+                AddWhitelist(args[0], message.channel.guild.id, message.channel);
+            }
+            else
+            {
+                message.channel.send("You do not have the required permissions to use this command!")
+            }
+
         }
         else if(cmd == "wl-remove")
         {
-            RemoveWhitelist(args[0], message.channel.guild.id, message.channel);
+            if(message.member.permissions.has("KICK_MEMBERS") || message.member.permissions.has("BAN_MEMBERS"))
+            {
+                RemoveWhitelist(args[0], message.channel.guild.id, message.channel);
+            }
+            else
+            {
+                message.channel.send("You do not have the required permissions to use this command!")
+            }
         }
-
-
-
     }
 
     console.log(message.content);
@@ -72,7 +86,6 @@ function AddWhitelist(userID, guildID, channel)
             channel.send("The UserID " + userID + " has been added into the Whitelist!");
         }
         else channel.send("A User by that ID is already Whitelisted!");
-
     }
 }
 
@@ -111,8 +124,10 @@ function CheckWhitelist(userID, guildID)
         var data = JSON.parse(rawData);
 
         if(data.userIDs.includes(userID)) return true;
+
         console.log(userID + " could not be found in the Whitelist!");
-    } else CreateWhitelist(guildID);
+    } 
+    else CreateWhitelist(guildID);
 
     return false;
 }
