@@ -1,0 +1,1 @@
+node ./src/Bot.js
