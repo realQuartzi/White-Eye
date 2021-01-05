@@ -42,6 +42,11 @@ Only users with these permissions are able to use the upcoming commands:
 
 ## WhiteEye-JS
 
+Only users with these permissions are able to use the upcoming commands:
+
+- Kick Members
+- Ban Members
+
 
 
 **[Commands] (argument) || Context** 
