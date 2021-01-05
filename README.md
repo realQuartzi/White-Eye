@@ -13,6 +13,12 @@ The bots json file name is named after the server's unique ID and therefore can 
 
 ## WhiteEye-CS
 
+The bot uses the Discord.Net package.
+
+To run the bot just compile the csproj into an executable and run it.  
+If a token file is not available the bot will create a token file and ask you to fill the file with your bot token.´ 
+The data directory will automatically be created, as aswell the whitelist files.  
+
 Only users with these permissions are able to use the upcoming commands:
 
 - Kick Members
@@ -41,6 +47,10 @@ Only users with these permissions are able to use the upcoming commands:
 <hr>
 
 ## WhiteEye-JS
+
+The bot uses the Discord.js package and runs through node.js.
+
+To run the bot just use the run.bat file that is available.
 
 Only users with these permissions are able to use the upcoming commands:
 
