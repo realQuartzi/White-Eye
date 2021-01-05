@@ -48,6 +48,7 @@ Only users with these permissions are able to use the upcoming commands:
 
 ## WhiteEye-JS
 
+For the Bot Token you require a .env file which contains your bot Token... Example: ``WHITEEYE_BOT_TOKEN=YOUR-BOT-TOKEN-HERE``  
 The bot uses the Discord.js package and runs through node.js.
 
 To run the bot just use the run.bat file that is available.
